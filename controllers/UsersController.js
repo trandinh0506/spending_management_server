@@ -7,6 +7,7 @@ class UsersController {
     }
     register(req, res) {
         const { username, password, email } = req.body;
+        console.log("register controller");
         usersModel.register(username, password, email, res);
     }
     add(req, res) {
