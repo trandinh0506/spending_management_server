@@ -11,6 +11,8 @@ const app = express();
 //     methods: "GET,POST",
 //     allowedHeaders: ["Access-Control-Allow-Origin"],
 // };
+app.use(express.json());
+app.use(cors());
 console.log(process.env.origin);
 app.get("/wakeup", (req, res) => res.sendStatus(200));
 app.use((req, res, next) => {
@@ -19,8 +21,6 @@ app.use((req, res, next) => {
 
     next();
 });
-app.use(express.json());
-app.use(cors());
 
 route(app);
 

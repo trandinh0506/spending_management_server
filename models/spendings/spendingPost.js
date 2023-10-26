@@ -11,7 +11,7 @@ const spendingPost = (
     console.log("spending post", sessions[token]);
     if (sessions[token]) {
         if (sessions[token].dateEXP >= new Date().getTime()) {
-            connection.connection.query(
+            connection.query(
                 "INSERT INTO spending (user_id, description, category_id, amount, date) VALUES (?, ?, ?, ?, ?)",
                 [
                     sessions[token].user_id,
@@ -30,7 +30,6 @@ const spendingPost = (
                             })
                         );
                     }
-                    connection.avaliable = 1;
                     res.send(JSON.stringify({ success: 1, message: "ok" }));
                 }
             );

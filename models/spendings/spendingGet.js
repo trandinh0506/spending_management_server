@@ -32,13 +32,12 @@ const spendingGet = (token, sessions, connection, res) => {
     if (!sessions[token]) {
         console.log("get spending without token");
         console.log("querying database");
-        connection.connection.query(
+        connection.query(
             "SELECT user_id FROM users WHERE token = ? AND dateEXP >= ?",
             [token, new Date().getTime()],
             (err, result) => {
                 console.log("query done");
                 if (err) {
-                    connection.avaliable = 1;
                     res.send(
                         JSON.stringify({
                             success: 0,
@@ -49,13 +48,12 @@ const spendingGet = (token, sessions, connection, res) => {
 
                 if (result[0]) {
                     const user_id = result[0].user_id;
-                    connection.connection.query(
+                    connection.query(
                         "SELECT category_name, category_color,category_id FROM categories WHERE user_id = ? ORDER BY category_id;\
                         SELECT description, category_id, amount, date FROM spending WHERE user_id = ? ORDER BY category_id;",
                         [user_id, user_id],
                         (err, data) => {
                             if (err) {
-                                connection.avaliable = 1;
                                 res.send(
                                     JSON.stringify({
                                         success: 0,
@@ -64,7 +62,6 @@ const spendingGet = (token, sessions, connection, res) => {
                                     })
                                 );
                             }
-                            connection.avaliable = 1;
                             const responeData = transformData(data[0], data[1]);
                             console.log(responeData);
                             res.send(
@@ -89,13 +86,12 @@ const spendingGet = (token, sessions, connection, res) => {
     } else {
         if (sessions[token].dateEXP >= new Date().getTime()) {
             const user_id = sessions[token].user_id;
-            connection.connection.query(
+            connection.query(
                 "SELECT category_name, category_color,category_id FROM categories WHERE user_id = ? ORDER BY category_id;\
                     SELECT description, category_id, amount, date FROM spending WHERE user_id = ? ORDER BY category_id;",
                 [user_id, user_id],
                 (err, data) => {
                     if (err) {
-                        connection.avaliable = 1;
                         res.send(
                             JSON.stringify({
                                 success: 0,
@@ -103,7 +99,6 @@ const spendingGet = (token, sessions, connection, res) => {
                             })
                         );
                     }
-                    connection.avaliable = 1;
                     const responeData = transformData(data[0], data[1]);
                     console.log(responeData);
                     res.send(

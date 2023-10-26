@@ -12,7 +12,7 @@ const createToken = (username, password) => {
 };
 
 const validateToken = (token, connection, callback) => {
-    connection.connection.query(
+    connection.query(
         "SELECT * FROM users WHERE token = ? and dateEXP >= ?",
         [token, new Date().getTime()],
         (err, data) => {
@@ -25,11 +25,9 @@ const validateToken = (token, connection, callback) => {
 const Login = (token, sessions, connection, username, password, res) => {
     if (token)
         if (sessions[token]?.dateEXP >= new Date().getTime()) {
-            connection.avaliable = 1;
             res.send(JSON.stringify({ success: 1, message: "ok" }));
         } else
             validateToken(token, connection, (result) => {
-                connection.avaliable = 1;
                 if (result[0]) {
                     if (!sessions[token])
                         sessions[token] = {
@@ -47,11 +45,10 @@ const Login = (token, sessions, connection, username, password, res) => {
                 }
             });
     else {
-        connection.connection.query(
+        connection.query(
             "SELECT * FROM users WHERE user_name = ? AND password = ?",
             [username, password],
             (err, data) => {
-                connection.avaliable = 1;
                 if (err) console.log(err);
                 if (data[0]) {
                     if (data[0].dateEXP >= new Date().getTime()) {
@@ -64,7 +61,7 @@ const Login = (token, sessions, connection, username, password, res) => {
                         );
                     } else {
                         const newToken = createToken(username, password);
-                        connection.connection.query(
+                        connection.query(
                             "INSERT INTO users (token, dateEXP) VALUES (?, ?)",
                             [newToken.token, newToken.tokenDate],
                             (err) => {
