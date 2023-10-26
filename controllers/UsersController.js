@@ -3,6 +3,7 @@ class UsersController {
     index() {}
     login(req, res) {
         const { username, password } = req.body;
+        console.log("login controller");
         usersModel.login(req.headers.authorization, username, password, res);
     }
     register(req, res) {
@@ -12,7 +13,7 @@ class UsersController {
     }
     add(req, res) {
         const { description, category_id, amount, date } = req.body;
-
+        console.log("add controller");
         usersModel.add(
             req.headers.authorization,
             description,
@@ -23,9 +24,11 @@ class UsersController {
         );
     }
     categories(req, res) {
+        console.log("categories controller (get categories)");
         usersModel.getCategories(req.headers.authorization, res);
     }
     getSpending(req, res) {
+        console.log("spending controller");
         usersModel.getSpending(req.headers.authorization, res);
     }
 }
