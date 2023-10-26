@@ -9,6 +9,7 @@ const app = express();
 const corsOptions = {
     origin: process.env.origin,
     methods: "GET,POST",
+    allowedHeaders: ["Access-Control-Allow-Origin"],
 };
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", process.env.origin); // Make sure process.env.origin is set correctly
