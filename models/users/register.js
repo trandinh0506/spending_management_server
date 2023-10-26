@@ -13,7 +13,7 @@ const checkingExistUsernameOrEmail = (
         "SELECT * FROM users WHERE user_name = ? OR email = ?",
         [username, email],
         (err, result) => {
-            if (err) throw err;
+            if (err) console.log(err);
             if (result[0]) {
                 while (result[i]) {
                     if (result[i].user_name === username) alreadyUsername = 1;
@@ -51,7 +51,7 @@ const Register = (sessions, connection, username, password, email, res) => {
                 [username, password, email, token.token, token.tokenDate],
                 (err, result) => {
                     connection.avaliable = 1;
-                    if (err) throw err;
+                    if (err) console.log(err);
                     sessions[token.token] = {
                         user_id: result.insertId,
                         dateEXP: token.tokenDate,
@@ -69,7 +69,7 @@ const Register = (sessions, connection, username, password, email, res) => {
                             sessions[token.token].user_id,
                         ],
                         (err) => {
-                            if (err) throw err;
+                            if (err) console.log(err);
                             connection.avaliable = 1;
                             res.send(
                                 JSON.stringify({

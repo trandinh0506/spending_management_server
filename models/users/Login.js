@@ -16,7 +16,7 @@ const validateToken = (token, connection, callback) => {
         "SELECT * FROM users WHERE token = ? and dateEXP >= ?",
         [token, new Date().getTime()],
         (err, data) => {
-            if (err) throw err;
+            if (err) console.log(err);
             callback(data);
         }
     );
@@ -52,7 +52,7 @@ const Login = (token, sessions, connection, username, password, res) => {
             [username, password],
             (err, data) => {
                 connection.avaliable = 1;
-                if (err) throw err;
+                if (err) console.log(err);
                 if (data[0]) {
                     if (data[0].dateEXP >= new Date().getTime()) {
                         sessions[data[0].token] = {
@@ -68,7 +68,7 @@ const Login = (token, sessions, connection, username, password, res) => {
                             "INSERT INTO users (token, dateEXP) VALUES (?, ?)",
                             [newToken.token, newToken.tokenDate],
                             (err) => {
-                                if (err) throw err;
+                                if (err) console.log(err);
                                 sessions[newToken.token] = {
                                     user_id: data[0].user_id,
                                     dateEXP: newToken.dateEXP,

@@ -5,7 +5,7 @@ const getCategories = (token, sessions, connection, res) => {
             [sessions[token].user_id],
             (err, result) => {
                 connection.avaliable = 1;
-                if (err) throw err;
+                if (err) console.log(err);
                 console.log(result);
                 res.send(JSON.stringify({ success: 1, categories: result }));
             }
@@ -15,7 +15,7 @@ const getCategories = (token, sessions, connection, res) => {
             "SELECT * FROM users WHERE token = ? and dateEXP >= ?",
             [token, new Date().getTime()],
             (err, data) => {
-                if (err) throw err;
+                if (err) console.log(err);
                 sessions[token] = {
                     user_id: data[0].user_id,
                     dateEXP: data[0].dateEXP,
@@ -26,7 +26,7 @@ const getCategories = (token, sessions, connection, res) => {
                     (err, result) => {
                         console.log(result);
                         connection.avaliable = 1;
-                        if (err) throw err;
+                        if (err) console.log(err);
                         res.send(
                             JSON.stringify({ success: 1, categories: result })
                         );

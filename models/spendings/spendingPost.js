@@ -21,7 +21,15 @@ const spendingPost = (
                     date,
                 ],
                 (err) => {
-                    if (err) throw err;
+                    if (err) {
+                        console.log(err);
+                        res.send(
+                            JSON.stringify({
+                                success: 0,
+                                message: "Không thể kết nối tới cơ sở dữ liệu!",
+                            })
+                        );
+                    }
                     connection.avaliable = 1;
                     res.send(JSON.stringify({ success: 1, message: "ok" }));
                 }
