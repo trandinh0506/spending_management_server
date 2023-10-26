@@ -9,7 +9,7 @@ class users {
     constructor() {
         this.sessions = {};
         this.connection = mysql.createPool({
-            connectionLimit: 20,
+            connectionLimit: 10,
             host: process.env.host,
             port: 3306,
             user: process.env.user,
@@ -24,35 +24,38 @@ class users {
         ]; // [connection, avaliable]
         for (let i = 0; i < 3; i++) {
             this.connection.getConnection((err, connection) => {
-                this.loginConnections[i].connection = connection;
-                this.loginConnections[i].avaliable = 1;
-                console.log(i);
+                if (!err) {
+                    this.loginConnections[i].connection = connection;
+                    this.loginConnections[i].avaliable = 1;
+                    console.log(i);
+                }
             });
         }
         this.registerConnections = [
             { connection: null, avaliable: 0 },
             { connection: null, avaliable: 0 },
             { connection: null, avaliable: 0 },
-            { connection: null, avaliable: 0 },
-            { connection: null, avaliable: 0 },
-            { connection: null, avaliable: 0 },
         ]; // [connection, avaliable]
         for (let i = 0; i < 3; i++) {
             this.connection.getConnection((err, connection) => {
-                this.registerConnections[i].connection = connection;
-                this.registerConnections[i].avaliable = 1;
-                console.log(i);
+                if (!err) {
+                    this.registerConnections[i].connection = connection;
+                    this.registerConnections[i].avaliable = 1;
+                    console.log(i);
+                }
             });
         }
         this.spendingConnections = [];
         for (let i = 0; i < 4; i++) {
             this.connection.getConnection((err, connection) => {
                 console.log("spending connections: ", i);
-                if (err) throw err;
-                this.spendingConnections.push({
-                    connection: connection,
-                    avaliable: 1,
-                });
+                if (err) console.log(err);
+                else {
+                    this.spendingConnections.push({
+                        connection: connection,
+                        avaliable: 1,
+                    });
+                }
             });
         }
         this.loginQueue = [];
