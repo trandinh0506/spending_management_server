@@ -60,7 +60,7 @@ class users {
         this.spendingQueue = [];
         this.getCategoriesQueue = [];
         this.getSpendingQueue = [];
-        setInterval(() => console.log(this.sessions), 10000);
+
         // event loop
         setInterval(() => {
             // login
