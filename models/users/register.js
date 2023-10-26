@@ -46,13 +46,20 @@ const Register = (sessions, connection, username, password, email, res) => {
             const token = createToken(username, password);
             connection.query(
                 "INSERT INTO users (user_name, password, email, token, dateEXP) VALUES ( ?, ?, ?, ?, ?);",
-                [username, password, email, token.token, token.tokenDate],
+                [
+                    username,
+                    password,
+                    email ? email : "",
+                    token.token,
+                    token.tokenDate,
+                ],
                 (err, result) => {
                     if (err) console.log(err);
                     sessions[token.token] = {
                         user_id: result.insertId,
                         dateEXP: token.tokenDate,
                     };
+                    console.log("insert user done");
                     connection.query(
                         "INSERT INTO categories (user_id, category_id, category_name, category_color) VALUES (?, 1, 'Tiền nhà', '#44b92d');\
         INSERT INTO categories (user_id, category_id, category_name, category_color) VALUES (?, 2, 'Ăn uống', '#5746d2');\
@@ -66,7 +73,17 @@ const Register = (sessions, connection, username, password, email, res) => {
                             sessions[token.token].user_id,
                         ],
                         (err) => {
-                            if (err) console.log(err);
+                            if (err) {
+                                console.log(err);
+                                res.send(
+                                    JSON.stringify({
+                                        success: 0,
+                                        message:
+                                            "Không thể kết nối tới cơ sở dữ liệu!",
+                                    })
+                                );
+                            }
+                            console.log("registered");
                             res.send(
                                 JSON.stringify({
                                     success: 1,
