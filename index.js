@@ -14,7 +14,7 @@ const app = express();
 console.log(process.env.origin);
 app.get("/wakeup", (req, res) => res.sendStatus(200));
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.origin);
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST");
 
     next();
