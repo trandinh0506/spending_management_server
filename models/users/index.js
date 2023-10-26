@@ -37,7 +37,7 @@ class users {
             { connection: null, avaliable: 0 },
             { connection: null, avaliable: 0 },
         ]; // [connection, avaliable]
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 3; i++) {
             this.connection.getConnection((err, connection) => {
                 this.registerConnections[i].connection = connection;
                 this.registerConnections[i].avaliable = 1;
