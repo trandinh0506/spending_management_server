@@ -20,37 +20,36 @@ class users {
         this.loginConnections = [
             { connection: null, avaliable: 0 },
             { connection: null, avaliable: 0 },
-            { connection: null, avaliable: 0 },
         ]; // [connection, avaliable]
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             this.connection.getConnection((err, connection) => {
                 if (!err) {
                     this.loginConnections[i].connection = connection;
                     this.loginConnections[i].avaliable = 1;
-                    console.log(i);
+                    console.log("login connection", i);
                 }
             });
         }
         this.registerConnections = [
             { connection: null, avaliable: 0 },
             { connection: null, avaliable: 0 },
-            { connection: null, avaliable: 0 },
         ]; // [connection, avaliable]
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             this.connection.getConnection((err, connection) => {
                 if (!err) {
                     this.registerConnections[i].connection = connection;
                     this.registerConnections[i].avaliable = 1;
-                    console.log(i);
+                    console.log("register connection", i);
                 }
             });
         }
         this.spendingConnections = [];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 2; i++) {
             this.connection.getConnection((err, connection) => {
                 console.log("spending connections: ", i);
                 if (err) console.log(err);
                 else {
+                    console.log("spending connection", i);
                     this.spendingConnections.push({
                         connection: connection,
                         avaliable: 1,
