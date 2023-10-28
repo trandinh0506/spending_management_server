@@ -50,7 +50,7 @@ const spendingGet = (token, sessions, connection, res) => {
                     const user_id = result[0].user_id;
                     connection.query(
                         "SELECT category_name, category_color,category_id FROM categories WHERE user_id = ? ORDER BY category_id;\
-                        SELECT description, category_id, amount, date FROM spending WHERE user_id = ? ORDER BY category_id;",
+                        SELECT description, category_id, amount, date FROM spending WHERE user_id = ? ORDER BY date;",
                         [user_id, user_id],
                         (err, data) => {
                             if (err) {
