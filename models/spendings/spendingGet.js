@@ -63,7 +63,6 @@ const spendingGet = (token, sessions, connection, res) => {
                                 );
                             }
                             const responeData = transformData(data[0], data[1]);
-                            console.log(responeData);
                             res.send(
                                 JSON.stringify({
                                     success: 1,
@@ -73,7 +72,7 @@ const spendingGet = (token, sessions, connection, res) => {
                         }
                     );
                 } else {
-                    console.log("no data from database", result);
+                    console.log("no data from database");
                     res.send(
                         JSON.stringify({
                             success: 0,
@@ -100,7 +99,6 @@ const spendingGet = (token, sessions, connection, res) => {
                         );
                     }
                     const responeData = transformData(data[0], data[1]);
-                    console.log(responeData);
                     res.send(
                         JSON.stringify({
                             success: 1,

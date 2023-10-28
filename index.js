@@ -6,21 +6,24 @@ require("dotenv").config();
 const route = require("./routes");
 const app = express();
 
-// const corsOptions = {
-//     origin: process.env.origin,
-//     methods: "GET,POST",
-//     allowedHeaders: ["Access-Control-Allow-Origin"],
-// };
+const corsOptions = {
+    origin: [process.env.origin],
+    methods: "GET,POST",
+    allowedHeaders: [
+        "Access-Control-Allow-Origin",
+        "Authorization",
+        "Content-Type",
+    ],
+};
 app.use(express.json());
-app.use(cors());
-console.log(process.env.origin);
-app.get("/wakeup", (req, res) => res.sendStatus(200));
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST");
 
     next();
 });
+app.get("/wakeup", (req, res) => res.sendStatus(200));
 
 route(app);
 

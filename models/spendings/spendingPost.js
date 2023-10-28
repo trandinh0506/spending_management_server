@@ -8,7 +8,6 @@ const spendingPost = (
     date,
     res
 ) => {
-    console.log("spending post", sessions[token]);
     if (sessions[token]) {
         if (sessions[token].dateEXP >= new Date().getTime()) {
             connection.query(

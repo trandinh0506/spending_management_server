@@ -31,5 +31,10 @@ class UsersController {
         console.log("spending controller");
         usersModel.getSpending(req.headers.authorization, res);
     }
+    update(req, res) {
+        console.log("updating categories");
+        const categories = req.body.categories;
+        usersModel.update(req.headers.authorization, categories, res);
+    }
 }
 module.exports = new UsersController();

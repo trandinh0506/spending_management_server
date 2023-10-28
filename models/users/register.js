@@ -13,7 +13,15 @@ const checkingExistUsernameOrEmail = (
         "SELECT * FROM users WHERE user_name = ? OR email = ?",
         [username, email],
         (err, result) => {
-            if (err) console.log(err);
+            if (err) {
+                console.log(err);
+                res.send(
+                    JSON.stringify({
+                        success: 0,
+                        message: "Không thể kết nối tới cơ sở dữ liệu!",
+                    })
+                );
+            }
             if (result[0]) {
                 while (result[i]) {
                     if (result[i].user_name === username) alreadyUsername = 1;

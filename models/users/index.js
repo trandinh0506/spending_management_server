@@ -17,7 +17,6 @@ class users {
             database: process.env.database,
             multipleStatements: true,
         });
-        // this.connection.query
     }
     login(token, username, password, res) {
         Login(token, this.sessions, this.connection, username, password, res);
@@ -49,6 +48,15 @@ class users {
     }
     getSpending(token, res) {
         spending.get(token, this.sessions, this.connection, res);
+    }
+    update(token, categories_, res) {
+        categories.update(
+            token,
+            this.sessions,
+            this.connection,
+            categories_,
+            res
+        );
     }
 }
 

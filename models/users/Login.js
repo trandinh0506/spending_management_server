@@ -49,7 +49,15 @@ const Login = (token, sessions, connection, username, password, res) => {
             "SELECT * FROM users WHERE user_name = ? AND password = ?",
             [username, password],
             (err, data) => {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                    res.send(
+                        JSON.stringify({
+                            success: 0,
+                            message: "Không thể kết nối tới cơ sở dữ liệu!",
+                        })
+                    );
+                }
                 if (data[0]) {
                     if (data[0].dateEXP >= new Date().getTime()) {
                         sessions[data[0].token] = {
@@ -65,7 +73,16 @@ const Login = (token, sessions, connection, username, password, res) => {
                             "INSERT INTO users (token, dateEXP) VALUES (?, ?)",
                             [newToken.token, newToken.tokenDate],
                             (err) => {
-                                if (err) console.log(err);
+                                if (err) {
+                                    console.log(err);
+                                    res.send(
+                                        JSON.stringify({
+                                            success: 0,
+                                            message:
+                                                "Không thể kết nối tới cơ sở dữ liệu!",
+                                        })
+                                    );
+                                }
                                 sessions[newToken.token] = {
                                     user_id: data[0].user_id,
                                     dateEXP: newToken.dateEXP,
