@@ -75,8 +75,12 @@ const Login = (token, sessions, connection, username, password, res) => {
                         // invalid token => create new token
                         const newToken = createToken(username, password);
                         connection.query(
-                            "UPDATE users set token = ? , dateEXP = ? VALUES (?, ?)",
-                            [newToken.token, newToken.tokenDate],
+                            "UPDATE users set token = ? , dateEXP = ? WHERE user_id = ?",
+                            [
+                                newToken.token,
+                                newToken.tokenDate,
+                                data[0].user_id,
+                            ],
                             (err) => {
                                 if (err) {
                                     console.log(err);
