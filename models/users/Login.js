@@ -23,6 +23,7 @@ const validateToken = (token, connection, callback) => {
 };
 
 const Login = (token, sessions, connection, username, password, res) => {
+    // login using token
     if (token)
         if (sessions[token]?.dateEXP >= new Date().getTime()) {
             res.send(JSON.stringify({ success: 1, message: "ok" }));
@@ -45,6 +46,7 @@ const Login = (token, sessions, connection, username, password, res) => {
                 }
             });
     else {
+        // login using username and password
         connection.query(
             "SELECT * FROM users WHERE user_name = ? AND password = ?",
             [username, password],
@@ -58,8 +60,10 @@ const Login = (token, sessions, connection, username, password, res) => {
                         })
                     );
                 }
+                // have valid user
                 if (data[0]) {
                     if (data[0].dateEXP >= new Date().getTime()) {
+                        // have valid token
                         sessions[data[0].token] = {
                             user_id: data[0].user_id,
                             dateEXP: data[0].dateEXP,
@@ -68,9 +72,10 @@ const Login = (token, sessions, connection, username, password, res) => {
                             JSON.stringify({ success: 1, token: data[0].token })
                         );
                     } else {
+                        // invalid token => create new token
                         const newToken = createToken(username, password);
                         connection.query(
-                            "INSERT INTO users (token, dateEXP) VALUES (?, ?)",
+                            "UPDATE users set token = ? , dateEXP = ? VALUES (?, ?)",
                             [newToken.token, newToken.tokenDate],
                             (err) => {
                                 if (err) {
